@@ -19,11 +19,13 @@ table_num=int(f.readline())
 f.readline()
 # read chi, load file, suppot 12 maximun digits
 full_tables={}
+chi_m=[]
+T_max=[]
 for i in range(table_num):
     chi = float(f.readline())
     filename = 'tables/Table_{0:.12g}.csv'.format(chi)
     print('Reading table: {0}'.format(filename))
-    with open(filename, 'rb') as tablefile:
+    with open(filename, 'r') as tablefile:
         tablereader = csv.reader(tablefile,delimiter=',')
         table_data = {}
         var_names = next(tablereader)
@@ -31,15 +33,13 @@ for i in range(table_num):
             table_data.update({var:[]})
         for row in tablereader:
             for i in range(len(row)):
-                table_data[var_names[i]].append(row[i])
+                table_data[var_names[i]].append(float(row[i]))
     full_tables.update({chi:table_data})
+    chi_m.append(chi)
+    T_max.append(max(table_data['T']))
 # print(full_tables.keys())
 
 # plot
-# use TEX for interpreter
-plt.rc('text',usetex=True)
-# use serif font
-plt.rc('font',family='serif')
 # figure and axes parameters
 plot_width      =9.0
 plot_height     =9.0
@@ -54,6 +54,10 @@ xmax = 1.0
 ymin = 300.0
 ymax = 2300.0
 
+# use TEX for interpreter
+plt.rc('text',usetex=True)
+# use serif font
+plt.rc('font',family='serif')
 # generate the figure
 plt.figure(1,figsize=cm2inch(plot_width, plot_height))
 # generate the axis
@@ -76,5 +80,20 @@ plt.ylabel("$T\;(\mathrm{K})$",fontsize=ftsize)
 # axis limits, ticks, and labels
 plt.axis([xmin, xmax, ymin, ymax])
 plt.xticks((0.0,0.2,0.4,0.6,0.8,1.0))
-plt.yticks(range(300,2301,500))
-plt.savefig('tables/flamelets_Z_T.eps')
+plt.yticks(range(290,2301,500))
+plt.savefig('tables/flamelets_Z_T.png',dpi=400)
+
+plt.figure(2,figsize=cm2inch(plot_width, plot_height))
+# generate the axis
+plt.subplot(111)
+# set margins
+plt.subplots_adjust(left    =margin_left/plot_width,
+                    bottom  =margin_bottom/plot_height,
+                    right   =1.0-margin_right/plot_width,
+                    top     =1.0-margin_top/plot_height)
+plt.plot(chi_m,T_max,'-o')
+# labels
+plt.xscale('log')
+plt.xlabel("$\chi_{st}$",fontsize=ftsize)
+plt.ylabel("$T\;(\mathrm{K})$",fontsize=ftsize)
+plt.savefig('tables/flamelets_chi_Tmax.png',dpi=400)
