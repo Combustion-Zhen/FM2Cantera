@@ -31,6 +31,7 @@ for i in range(table_num):
         var_names = next(tablereader)
         for var in var_names:
             table_data.update({var:[]})
+        table_data.update({'PV':[]})
         for row in tablereader:
             for i in range(len(row)):
                 table_data[var_names[i]].append(float(row[i]))
