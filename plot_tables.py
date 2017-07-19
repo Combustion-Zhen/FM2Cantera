@@ -74,7 +74,7 @@ for chi_st in full_tables.keys():
     plt.plot(full_tables[chi_st]['Z'],full_tables[chi_st]['T'])
 
 # labels
-plt.xlabel("$f$",fontsize=ftsize)
+plt.xlabel("$Z$",fontsize=ftsize)
 plt.ylabel("$T\;(\mathrm{K})$",fontsize=ftsize)
 
 # axis limits, ticks, and labels

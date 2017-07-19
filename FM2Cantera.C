@@ -123,6 +123,21 @@ double FM2Can(const double &chi_f, const string &fuel, const string &chi, const 
     var_name.insert(var_name.begin()+2,"chi");
     all_data.insert(all_data.begin()+2,data_read(FM_file,grid_pts));
 
+    // skip density, lambda, cp, lambdaOverCp
+    getline(FM_file,line);
+    data_read(FM_file,grid_pts);
+    getline(FM_file,line);
+    data_read(FM_file,grid_pts);
+    getline(FM_file,line);
+    data_read(FM_file,grid_pts);
+    getline(FM_file,line);
+    data_read(FM_file,grid_pts);
+
+    // viscosity
+    getline(FM_file,line);
+    var_name.push_back("mu");
+    all_data.push_back(data_read(FM_file,grid_pts));
+
     // write to Table_chi.csv
     // make filename for Cantera tables
     ostringstream strm;
