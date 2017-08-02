@@ -38,15 +38,15 @@ for table in glob.glob('{0}{1}*{2}'.format(folder_name,table_pre,file_end)):
     label = r'$\chi_{st}=$'+chist
 
     # calculate the equivalence ratio
-    phi = (data['H']+data['OH']+2.*data['H2']+2.*data['H2O']
-            +data['HO2']+2.*data['H2O2']) \
-         / (2.*data['O2']+data['OH']+data['O']+data['H2O']
-            +2.*data['HO2']+2.*data['H2O2'])
+    phi = (data['H']+data['OH']/17.+2.*data['H2']/2.+2.*data['H2O']/18.
+            +data['HO2']/33.+2.*data['H2O2']/34.) \
+         / (2.*data['O2']/32.+data['OH']/17.+data['O']/16.+data['H2O']/18.
+            +2.*data['HO2']/33.+2.*data['H2O2']/34.) *0.5
 
     PV = np.zeros(len(phi))
 
     for i, p in enumerate(phi):
-        if phi[i] < 1:
+        if phi[i] < 1.0:
             PV[i] = data['H2O'][i]/18./(data['H2O'][i]/18.+data['H2'][i]/2.)
         else:
             PV[i] = data['H2O'][i]/18./(data['H2O'][i]/18.+data['O2'][i]/16.)

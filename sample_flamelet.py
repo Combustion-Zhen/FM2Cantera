@@ -28,6 +28,7 @@ with open(dict_file) as f:
     for line in f:
         compositions.append(line[:line.find('\t')])
 compositions.append('T')
+compositions.append('chi')
 
 for table in glob.glob('{0}{1}*{2}'.format(folder_name,table_pre,file_end)): 
 
@@ -47,7 +48,13 @@ for table in glob.glob('{0}{1}*{2}'.format(folder_name,table_pre,file_end)):
             for i, sp in enumerate(compositions):
                 samples[:,i] = np.interp(Z,data['Z'],data[sp])
             
-            file_name = '{0}samples_ave{1:.3f}_var{2:.3f}_chi{3}.dat'          \
-                        .format(dest_dir,mean,var,chist)
+            file_name = 'samples_ave{0:.3f}_var{1:.3f}_chi{2}.dat'             \
+                        .format(mean,var,chist)
 
-            np.savetxt(file_name,samples,fmt='%10.5f')
+            np.savetxt('{0}{1}'.format(dest_dir,file_name),samples,fmt='%12.5f')
+
+            # output a list for the FORTRAN
+            with open('{0}input'.format(dest_dir),'w') as f:
+                f.write(file_name+'\n')
+                f.write('{0:12.5f}{1:12.5f}{2:12.5f}'
+                        .format(mean,var,float(chist)))
