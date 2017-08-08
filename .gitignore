@@ -9,3 +9,4 @@
 
 # ignore files
 *.eps
+.DS_store
