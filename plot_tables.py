@@ -12,8 +12,9 @@ def cm2inch(*tupl):
     inch = 2.54
     return tuple(i/inch for i in tupl)
 
+folder_name = 'tables_CH4'
 # load the chi_param.include file to get information on table files
-f=open('tables/chi_param.include','r')
+f=open('{}/chi_param.include'.format(folder_name),'r')
 f.readline()
 table_num=int(f.readline())
 f.readline()
@@ -23,7 +24,7 @@ chi_m=[]
 T_max=[]
 for i in range(table_num):
     chi = float(f.readline())
-    filename = 'tables/Table_{0:.12g}.csv'.format(chi)
+    filename = '{0}/Table_{1:.12g}.csv'.format(folder_name,chi)
     print('Reading table: {0}'.format(filename))
     with open(filename, 'r') as tablefile:
         tablereader = csv.reader(tablefile,delimiter=',')
@@ -82,7 +83,7 @@ plt.ylabel("$T\;(\mathrm{K})$",fontsize=ftsize)
 plt.axis([xmin, xmax, ymin, ymax])
 plt.xticks((0.0,0.2,0.4,0.6,0.8,1.0))
 plt.yticks(range(290,2301,500))
-plt.savefig('tables/flamelets_Z_T.png',dpi=400)
+plt.savefig('{}/flamelets_Z_T.png'.format(folder_name),dpi=400)
 
 plt.figure(2,figsize=cm2inch(plot_width, plot_height))
 # generate the axis
@@ -97,4 +98,4 @@ plt.plot(chi_m,T_max,'-o')
 plt.xscale('log')
 plt.xlabel("$\chi_{st}$",fontsize=ftsize)
 plt.ylabel("$T\;(\mathrm{K})$",fontsize=ftsize)
-plt.savefig('tables/flamelets_chi_Tmax.png',dpi=400)
+plt.savefig('{}/flamelets_chi_Tmax.png'.format(folder_name),dpi=400)
