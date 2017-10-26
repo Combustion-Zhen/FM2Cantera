@@ -10,7 +10,6 @@ import numpy as np
 from subprocess import call
 
 models = ['IEM','MC','EMST']
-
 Z_mean = [0.304,]
 Z_var  = np.arange(0.1,1.0,0.1);
 N_p    = 100
@@ -21,11 +20,14 @@ for mean in Z_mean:
         for file_name in glob.glob('{0}*.dat'.format(file_pre)):
             chist = float(file_name[len(file_pre):-4])
 
+            particles = np.genfromtxt(file_name)
+            chi = np.average(particles[:,-1])
+
             # edit input
             with open('input','w') as f:
                 f.write('{0}\n'.format(file_name))
                 f.write('{0:12.5f}{1:12.5f}{2:12.5f}\n'
-                        .format(mean,var,chist))
+                        .format(mean,var,chi))
 
             for i, model in enumerate( models ):
                 # edit the pasr.nml
@@ -38,4 +40,4 @@ for mean in Z_mean:
                     f.write(nml_n)
 
                 # run the mixing
-                call(["Mixing"])
+                call(["./Mixing"])
