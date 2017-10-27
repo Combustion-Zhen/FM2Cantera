@@ -25,18 +25,18 @@ for mean in Z_mean:
 
             # edit input
             with open('input','w') as f:
-                f.write('{0}\n'.format(file_name))
+                f.write('{0}\nH2\n'.format(file_name))
                 f.write('{0:12.5f}{1:12.5f}{2:12.5f}\n'
                         .format(mean,var,chi))
 
             for i, model in enumerate( models ):
                 # edit the pasr.nml
-                with open('pasr.nml','r') as f:
+                with open('mix.nml','r') as f:
                     nml = f.read()
                 nml_n = '{0}{1}{2}'.format(nml[:nml.find('mxmode')+7],
                                            i+1,
                                            nml[nml.find('mxmode')+8:])
-                with open('pasr.nml','w') as f:
+                with open('mix.nml','w') as f:
                     f.write(nml_n)
 
                 # run the mixing
