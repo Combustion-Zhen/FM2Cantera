@@ -38,10 +38,10 @@ for i, model in enumerate(models):
     for mean in Z_mean:
         for var in Z_var:
             file_pre = 'samples_ave{0:.3f}_var{1:.3f}_chi'.format(mean,var)
-            files = '{0}*.dat{1}'.format(file_pre,model)
+            files = '{0}*.{1}'.format(file_pre,model)
             data = np.zeros((len(glob.glob(files)),2))
             for j, file_name in enumerate(glob.glob(files)):
-                chist = float(file_name[len(file_pre):file_name.find('.dat')])
+                chist = float(file_name[len(file_pre):file_name.find('.{}'.format(model))])
 
                 particles = np.genfromtxt(file_name)
 
